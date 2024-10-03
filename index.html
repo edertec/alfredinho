@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Velha</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <img src="banner.jpeg" alt="Banner Jogo da Velha" class="banner">
+    </header>
+    <div id="message" class="message"></div>
+
+    <main>
+        <div id="gameBoard" class="board"></div>
+        <button onclick="startGame(true)">Jogar contra a CPU</button>
+        <button onclick="startGame(false)">Jogar contra um amigo</button>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
