@@ -14,9 +14,15 @@
 
     <main>
         <div id="gameBoard" class="board"></div>
-        <button onclick="startGame(true)">Jogar contra a CPU</button>
         <button onclick="startGame(false)">Jogar contra um amigo</button>
+        <button onclick="startGame(true)">Jogar contra a CPU</button>
+        <select id="difficulty" onchange="setDifficulty(this.value)">
+            <option value="easy">Fácil</option>
+            <option value="medium">Médio</option>
+            <option value="impossible" selected>Impossível</option>
+        </select>
     </main>
+    
     <script src="script.js"></script>
 </body>
 </html>
