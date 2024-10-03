@@ -7,13 +7,12 @@ function startGame(againstCPU) {
     currentPlayer = 'X';  // O jogador 'X' sempre começa
     board.fill(null);
     gameActive = true;
-    const gameBoard = document.getElementById('gameBoard');
-    gameBoard.innerHTML = '';
+    document.getElementById('gameBoard').innerHTML = '';
     document.getElementById('message').style.display = 'none';
     for (let i = 0; i < 9; i++) {
         let square = document.createElement('div');
         square.addEventListener('click', function() { makeMove(i); });
-        gameBoard.appendChild(square);
+        document.getElementById('gameBoard').appendChild(square);
     }
 }
 
@@ -52,15 +51,58 @@ function displayMessage(message) {
 }
 
 function cpuMove() {
-    // Implementação do algoritmo minimax aqui para encontrar a melhor jogada
-    let bestMove = findBestMove();
+    let bestMove = findBestMove(board, currentPlayer);
     makeMove(bestMove);
 }
 
-function findBestMove() {
-    // Código para escolher a melhor jogada usando Minimax
-    for (let i = 0; i < board.length; i++) {
-        if (!board[i]) return i;  // Placeholder para o índice da melhor jogada
+function findBestMove(board, player) {
+    let opponent = player === 'O' ? 'X' : 'O';
+    let bestVal = -Infinity;
+    let bestMove = -1;
+    board.forEach((cell, index) => {
+        if (cell === null) {
+            board[index] = player;
+            let moveVal = minimax(board, false, player);
+            board[index] = null;
+            if (moveVal > bestVal) {
+                bestVal = moveVal;
+                bestMove = index;
+            }
+        }
+    });
+    return bestMove;
+}
+
+function minimax(board, isMax, player) {
+    let opponent = player === 'O' ? 'X' : 'O';
+    let winner = null;
+    if (checkWin(player)) winner = player;
+    else if (checkWin(opponent)) winner = opponent;
+
+    if (winner === player) return 10;
+    else if (winner === opponent) return -10;
+    else if (!board.includes(null)) return 0;  // Empate
+
+    if (isMax) {
+        let best = -Infinity;
+        board.forEach((cell, index) => {
+            if (cell === null) {
+                board[index] = player;
+                best = Math.max(best, minimax(board, !isMax, player));
+                board[index] = null;
+            }
+        });
+        return best;
+    } else {
+        let best = Infinity;
+        board.forEach((cell, index) => {
+            if (cell === null) {
+                board[index] = opponent;
+                best = Math.min(best, minimax(board, !isMax, player));
+                board[index] = null;
+            }
+        });
+        return best;
     }
 }
 
